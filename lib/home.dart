@@ -166,8 +166,18 @@ class _NewExpenseState extends State<NewExpense> {
                     });
                   },
                 ),
+                const Spacer(),
+                DropdownButton(
+                    value: 'food',
+                    items: ['food', 'transportation', 'personal', 'other']
+                        .map((String item) => DropdownMenuItem<String>(value: item, child: Text(item)))
+                        .toList(),
+                    onChanged: (value) {
+                      print(value);
+                    }),
               ],
             ),
+            const SizedBox(height: 20),
             Row(children: [
               ElevatedButton(
                 onPressed: () {
