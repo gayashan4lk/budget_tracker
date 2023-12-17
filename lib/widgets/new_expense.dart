@@ -6,21 +6,13 @@ import 'package:budget_tracker/models/expense.dart';
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.addExpense});
 
-  final Function addExpense;
+  final void Function(Expense expense) addExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  late Function addExpense;
-
-  @override
-  void initState() {
-    super.initState();
-    addExpense = widget.addExpense;
-  }
-
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime? pickedDate;
@@ -38,14 +30,14 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
 
-    var newExpense = Expense(
-      title: titleController.text,
-      amount: double.tryParse(amountController.text)!,
-      date: pickedDate!,
-      category: selectedCategory!,
+    widget.addExpense(
+      Expense(
+        title: titleController.text,
+        amount: double.tryParse(amountController.text)!,
+        date: pickedDate!,
+        category: selectedCategory!,
+      ),
     );
-
-    addExpense(newExpense);
     Navigator.pop(context);
   }
 
