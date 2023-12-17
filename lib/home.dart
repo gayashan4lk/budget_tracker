@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Expense> _dummyExpenses = [
+  List<Expense> _dummyExpenses = [
     Expense(title: "Flutter course", amount: 19.99, date: DateTime.now(), category: Category.personal),
     Expense(title: "Lunch", amount: 5.00, date: DateTime.now(), category: Category.food),
     Expense(title: "Train", amount: 2.50, date: DateTime.now(), category: Category.transportation),
@@ -26,10 +26,24 @@ class _HomePageState extends State<HomePage> {
     Expense(title: "Concert tickets", amount: 75.50, date: DateTime.now(), category: Category.other),
   ];
 
+  void addExpense(Expense expense) {
+    _dummyExpenses.add(expense);
+    setState(() {
+      _dummyExpenses = _dummyExpenses;
+    });
+  }
+
+  void deleteExpense(String id) {
+    _dummyExpenses.removeWhere((expense) => expense.id == id);
+    setState(() {
+      _dummyExpenses = _dummyExpenses;
+    });
+  }
+
   void _openAddExpensesOverlay() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => const NewExpense(),
+      builder: (ctx) => NewExpense(addExpense: addExpense),
       showDragHandle: true,
     );
   }
@@ -45,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Text('Chart'),
           Expanded(
-            child: ExpensesList(expenses: _dummyExpenses),
+            child: ExpensesList(expenses: _dummyExpenses, deleteExpense: deleteExpense),
           )
         ],
       ),
@@ -59,23 +73,25 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ExpensesList extends StatelessWidget {
-  const ExpensesList({super.key, required this.expenses});
+  const ExpensesList({super.key, required this.expenses, required this.deleteExpense});
 
   final List<Expense> expenses;
+  final Function deleteExpense;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: expenses.length,
-      itemBuilder: (context, index) => ExpenseItem(expense: expenses[index]),
+      itemBuilder: (context, index) => ExpenseItem(expense: expenses[index], deleteExpense: deleteExpense),
     );
   }
 }
 
 class ExpenseItem extends StatelessWidget {
-  const ExpenseItem({super.key, required this.expense});
+  const ExpenseItem({super.key, required this.expense, required this.deleteExpense});
 
   final Expense expense;
+  final Function deleteExpense;
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +118,7 @@ class ExpenseItem extends StatelessWidget {
         trailing: IconButton(
           iconSize: 20,
           icon: const Icon(Icons.delete),
-          onPressed: () => {
-            print('delete ${expense.id}'),
-          },
+          onPressed: () => {deleteExpense(expense.id)},
         ),
       ),
     );
@@ -112,13 +126,23 @@ class ExpenseItem extends StatelessWidget {
 }
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.addExpense});
+
+  final Function addExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
 }
 
 class _NewExpenseState extends State<NewExpense> {
+  late Function addExpense;
+
+  @override
+  void initState() {
+    super.initState();
+    addExpense = widget.addExpense;
+  }
+
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime? pickedDate;
@@ -143,7 +167,7 @@ class _NewExpenseState extends State<NewExpense> {
       category: selectedCategory!,
     );
 
-    print(newExpense);
+    addExpense(newExpense);
     Navigator.pop(context);
   }
 
