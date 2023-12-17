@@ -65,11 +65,18 @@ class ExpenseItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: ListTile(
-        leading: CircleAvatar(
-          child: Text(expense.amount.toString()),
+        leading: Text(
+          '\$${expense.amount.toStringAsFixed(2)}',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        title: Text(expense.title, style: const TextStyle(fontWeight: FontWeight.w500)),
-        subtitle: Text(expense.date.toString()),
+        title: Text(expense.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(expense.date.toString(), style: const TextStyle(fontSize: 10)),
+            Text(expense.category.toString(), style: const TextStyle(fontSize: 10)),
+          ],
+        ),
         trailing: IconButton(
           iconSize: 20,
           icon: const Icon(Icons.delete),
