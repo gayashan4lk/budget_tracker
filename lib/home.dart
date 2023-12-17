@@ -28,9 +28,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Text('Chart'),
           Expanded(
-            child: ExpensesList(
-              expenses: _dummyExpenses,
-            ),
+            child: ExpensesList(expenses: _dummyExpenses),
           )
         ],
       ),
@@ -52,18 +50,34 @@ class ExpensesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: expenses.length,
-      itemBuilder: (context, index) {
-        final expense = expenses[index];
-        return Card(
-          child: ListTile(
-            leading: CircleAvatar(
-              child: Text(expense.amount.toString()),
-            ),
-            title: Text(expense.title),
-            subtitle: Text(expense.date.toString()),
-          ),
-        );
-      },
+      itemBuilder: (context, index) => ExpenseItem(expense: expenses[index]),
+    );
+  }
+}
+
+class ExpenseItem extends StatelessWidget {
+  const ExpenseItem({super.key, required this.expense});
+
+  final Expense expense;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Text(expense.amount.toString()),
+        ),
+        title: Text(expense.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+        subtitle: Text(expense.date.toString()),
+        trailing: IconButton(
+          iconSize: 20,
+          icon: const Icon(Icons.delete),
+          onPressed: () => {
+            print('delete ${expense.id}'),
+          },
+        ),
+      ),
     );
   }
 }
