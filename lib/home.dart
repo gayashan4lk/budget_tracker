@@ -16,9 +16,9 @@ class _HomePageState extends State<HomePage> {
     Expense(title: "Lunch", amount: 5.00, date: DateTime.now(), category: Category.food),
     Expense(title: "Train", amount: 2.50, date: DateTime.now(), category: Category.personal),
     Expense(title: "Shopping", amount: 15.50, date: DateTime.now(), category: Category.other),
-    Expense(title: "Gas", amount: 30.00, date: DateTime.now(), category: Category.transportation),
+    Expense(title: "Gas", amount: 330.00, date: DateTime.now(), category: Category.transportation),
     Expense(title: "Movie", amount: 12.75, date: DateTime.now(), category: Category.other),
-    Expense(title: "Dinner", amount: 20.00, date: DateTime.now(), category: Category.food),
+    Expense(title: "Dinner", amount: 29241.00, date: DateTime.now(), category: Category.food),
     Expense(title: "Books", amount: 40.25, date: DateTime.now(), category: Category.personal),
     Expense(title: "Gym membership", amount: 50.00, date: DateTime.now(), category: Category.personal),
     Expense(title: "Concert tickets", amount: 75.50, date: DateTime.now(), category: Category.other),
@@ -72,16 +72,21 @@ class ExpenseItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: ListTile(
-        leading: Text(
-          '\$${expense.amount.toStringAsFixed(2)}',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        leading: Container(
+          width: 100,
+          child: Text(
+            '\$${expense.amount.toStringAsFixed(2)}',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
         ),
         title: Text(expense.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(expense.date.toString(), style: const TextStyle(fontSize: 10)),
-            Text(expense.category.toString(), style: const TextStyle(fontSize: 10)),
+            const Icon(Icons.access_alarm, size: 12),
+            const SizedBox(width: 5),
+            Text(expense.formattedDate, style: const TextStyle(fontSize: 10)),
           ],
         ),
         trailing: IconButton(

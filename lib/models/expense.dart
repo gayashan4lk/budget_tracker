@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 enum Category { food, transportation, personal, other }
@@ -16,4 +17,8 @@ class Expense {
   final double amount;
   final DateTime date;
   final Category category;
+
+  String get formattedDate {
+    return DateFormat.yMd().format(date);
+  }
 }
