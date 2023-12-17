@@ -24,6 +24,10 @@ class _HomePageState extends State<HomePage> {
     Expense(title: "Concert tickets", amount: 75.50, date: DateTime.now(), category: Category.other),
   ];
 
+  void _openAddExpensesOverlay() {
+    showModalBottomSheet(context: context, builder: (ctx) => Text('Add Expense'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +44,9 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'floating action button',
-        child: const Icon(Icons.abc),
+        onPressed: _openAddExpensesOverlay,
+        tooltip: 'Add an expense',
+        child: const Icon(Icons.add),
       ),
     );
   }
