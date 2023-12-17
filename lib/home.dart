@@ -1,5 +1,7 @@
-import 'package:budget_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
+
+import 'package:budget_tracker/models/expense.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -25,7 +27,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void _openAddExpensesOverlay() {
-    showModalBottomSheet(context: context, builder: (ctx) => const NewExpense());
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => const NewExpense(),
+      showDragHandle: true,
+    );
   }
 
   @override
@@ -114,10 +120,13 @@ class NewExpense extends StatefulWidget {
 
 class _NewExpenseState extends State<NewExpense> {
   final titleController = TextEditingController();
+  final amountController = TextEditingController();
+  DateTime? pickedDate;
 
   @override
   void dispose() {
     titleController.dispose();
+    amountController.dispose();
     super.dispose();
   }
 
@@ -133,10 +142,45 @@ class _NewExpenseState extends State<NewExpense> {
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(labelText: 'Title'),
             ),
+            TextField(
+              controller: amountController,
+              maxLength: 10,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Amount', prefixText: '\$ '),
+            ),
+            Row(
+              children: [
+                Text(pickedDate == null ? 'Select a Date' : DateFormat.yMd().format(pickedDate!)),
+                IconButton(
+                  icon: const Icon(Icons.calendar_month),
+                  onPressed: () async {
+                    final now = DateTime.now();
+                    final pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: now,
+                      firstDate: DateTime(now.year - 99, now.month, now.day),
+                      lastDate: now,
+                    );
+                    setState(() {
+                      this.pickedDate = pickedDate;
+                    });
+                  },
+                ),
+              ],
+            ),
             Row(children: [
               ElevatedButton(
                 onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              const SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
                   print(titleController.text);
+                  print(amountController.text);
+                  print(pickedDate);
                 },
                 child: const Text('Save'),
               ),
