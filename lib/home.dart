@@ -14,10 +14,10 @@ class _HomePageState extends State<HomePage> {
   final List<Expense> _dummyExpenses = [
     Expense(title: "Flutter course", amount: 19.99, date: DateTime.now(), category: Category.personal),
     Expense(title: "Lunch", amount: 5.00, date: DateTime.now(), category: Category.food),
-    Expense(title: "Train", amount: 2.50, date: DateTime.now(), category: Category.personal),
+    Expense(title: "Train", amount: 2.50, date: DateTime.now(), category: Category.transportation),
     Expense(title: "Shopping", amount: 15.50, date: DateTime.now(), category: Category.other),
     Expense(title: "Gas", amount: 330.00, date: DateTime.now(), category: Category.transportation),
-    Expense(title: "Movie", amount: 12.75, date: DateTime.now(), category: Category.other),
+    Expense(title: "Movie", amount: 12.75, date: DateTime.now(), category: Category.personal),
     Expense(title: "Dinner", amount: 29241.00, date: DateTime.now(), category: Category.food),
     Expense(title: "Books", amount: 40.25, date: DateTime.now(), category: Category.personal),
     Expense(title: "Gym membership", amount: 50.00, date: DateTime.now(), category: Category.personal),
@@ -84,7 +84,7 @@ class ExpenseItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(Icons.access_alarm, size: 12),
+            Icon(categoryIcons[expense.category]),
             const SizedBox(width: 5),
             Text(expense.formattedDate, style: const TextStyle(fontSize: 10)),
           ],
