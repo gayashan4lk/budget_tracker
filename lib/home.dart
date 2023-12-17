@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void _openAddExpensesOverlay() {
-    showModalBottomSheet(context: context, builder: (ctx) => Text('Add Expense'));
+    showModalBottomSheet(context: context, builder: (ctx) => const NewExpense());
   }
 
   @override
@@ -102,5 +102,29 @@ class ExpenseItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class NewExpense extends StatefulWidget {
+  const NewExpense({super.key});
+
+  @override
+  State<NewExpense> createState() => _NewExpenseState();
+}
+
+class _NewExpenseState extends State<NewExpense> {
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              maxLength: 50,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(labelText: 'Title'),
+            )
+          ],
+        ));
   }
 }
