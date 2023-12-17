@@ -72,7 +72,7 @@ class ExpenseItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: ListTile(
-        leading: Container(
+        leading: SizedBox(
           width: 100,
           child: Text(
             '\$${expense.amount.toStringAsFixed(2)}',
