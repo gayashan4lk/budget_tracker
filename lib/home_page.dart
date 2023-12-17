@@ -17,7 +17,9 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: null,
+      body: const Column(
+        children: <Widget>[Text('Chart'), Text('Expenses List')],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {},
         tooltip: 'floating action button',
